@@ -1,0 +1,38 @@
+{
+  "clients": [
+    {
+      "id": 1,
+      "name": "Acme Corp",
+      "email": "acme@example.com",
+      "projects": [1, 2]
+    },
+    {
+      "id": 2,
+      "name": "Globex Inc",
+      "email": "globe.example.com",
+      "projects": [3]
+    },
+    {
+      "id": 3,
+      "name": "Initech",
+      "email": "Initech@example.com",
+      "projects": []
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "Website Redesign",
+      "clientId": 1,
+      "status": "In Progress"
+    }
+  ],
+  "invoices": [
+    {
+      "id": 1,
+      "clientId": 1,
+      "amount": 1200,
+      "status": "Pending"
+    }
+  ]
+}
