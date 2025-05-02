@@ -3,7 +3,7 @@ import Invoice from '../models/Invoice.js';
 // Get all invoices
 export const getInvoices = async (req, res) => {
   try {
-    const invoices = await Invoice.find().populate('clientId', 'name email');
+    const invoices = await Invoice.find().populate('clientId', 'name email id');
     res.status(200).json(invoices);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,8 @@ export const getInvoices = async (req, res) => {
 // Get a single invoice by ID
 export const getInvoiceById = async (req, res) => {
   try {
-    const invoice = await Invoice.findById(req.params.id).populate('clientId', 'name email');
+    const invoiceId = parseInt(req.params.id);
+    const invoice = await Invoice.findOne({ id: invoiceId }).populate('clientId', 'name email id');
     if (!invoice) {
       return res.status(404).json({ message: 'Invoice not found' });
     }
@@ -37,8 +38,9 @@ export const createInvoice = async (req, res) => {
 // Update an invoice
 export const updateInvoice = async (req, res) => {
   try {
-    const updatedInvoice = await Invoice.findByIdAndUpdate(
-      req.params.id, 
+    const invoiceId = parseInt(req.params.id);
+    const updatedInvoice = await Invoice.findOneAndUpdate(
+      { id: invoiceId }, 
       req.body, 
       { new: true, runValidators: true }
     );
@@ -54,7 +56,8 @@ export const updateInvoice = async (req, res) => {
 // Delete an invoice
 export const deleteInvoice = async (req, res) => {
   try {
-    const invoice = await Invoice.findByIdAndDelete(req.params.id);
+    const invoiceId = parseInt(req.params.id);
+    const invoice = await Invoice.findOneAndDelete({ id: invoiceId });
     if (!invoice) {
       return res.status(404).json({ message: 'Invoice not found' });
     }

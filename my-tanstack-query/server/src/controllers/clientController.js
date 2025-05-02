@@ -13,7 +13,8 @@ export const getClients = async (req, res) => {
 // Get a single client by ID
 export const getClientById = async (req, res) => {
   try {
-    const client = await Client.findById(req.params.id).populate('projects');
+    const clientId = parseInt(req.params.id);
+    const client = await Client.findOne({ id: clientId }).populate('projects');
     if (!client) {
       return res.status(404).json({ message: 'Client not found' });
     }
@@ -37,8 +38,9 @@ export const createClient = async (req, res) => {
 // Update a client
 export const updateClient = async (req, res) => {
   try {
-    const updatedClient = await Client.findByIdAndUpdate(
-      req.params.id, 
+    const clientId = parseInt(req.params.id);
+    const updatedClient = await Client.findOneAndUpdate(
+      { id: clientId },
       req.body, 
       { new: true, runValidators: true }
     );
@@ -54,7 +56,8 @@ export const updateClient = async (req, res) => {
 // Delete a client
 export const deleteClient = async (req, res) => {
   try {
-    const client = await Client.findByIdAndDelete(req.params.id);
+    const clientId = parseInt(req.params.id);
+    const client = await Client.findOneAndDelete({ id: clientId });
     if (!client) {
       return res.status(404).json({ message: 'Client not found' });
     }
